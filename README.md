@@ -11,7 +11,7 @@ The distro that it uses is **Amazon Linux** which is based on **Fedora/CentOS**.
 
 WebShell has a API:
 ```http
-Base URL: https://web-terminal-eight.vercel.app/run
+URL: https://web-terminal-eight.vercel.app/run
 Method: POST
 Headers: Content-Type: application/json
 Body: {"command": "your_linux_command_here"}
