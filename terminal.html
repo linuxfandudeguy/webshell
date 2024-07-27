@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebShell Terminal</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 0;
+        }
+        #terminal-container {
+            display: none;
+            border: 1px solid #333;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+            background: #000;
+            color: #d4d4d4;
+            position: relative;
+            font-size: 14px;
+        }
+        .terminal-line {
+            white-space: pre;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        .prompt-container {
+            display: flex;
+            align-items: center;
+        }
+        #prompt {
+            color: #9b59b6; /* Purple color */
+            font-weight: bold;
+            margin-right: 5px; /* Space between prompt and input */
+        }
+        #input {
+            border: none;
+            background: #000;
+            color: #d4d4d4;
+            outline: none;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        #username-form {
+            padding: 20px;
+            background: #333;
+            color: #d4d4d4;
+            text-align: center;
+        }
+        #username {
+            background: #222;
+            color: #d4d4d4;
+            border: 1px solid #555;
+            padding: 5px;
+            font-family: monospace;
+            outline: none;
+            width: calc(100% - 20px);
+        }
+        button {
+            background: #444;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="username-form">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" autofocus />
+        <button onclick="startTerminal()">Start Terminal</button>
+    </div>
+    <div id="terminal-container">
+        <pre id="terminal"></pre>
+        <div class="prompt-container">
+            <span id="prompt"></span>
+            <input type="text" id="input" autofocus />
+        </div>
+    </div>
+
+    <script>
+        let username = '';
+        let terminal = document.getElementById('terminal');
+        let inputField = document.getElementById('input');
+        let promptSpan = document.getElementById('prompt');
+        let prompt = '';
+
+        function startTerminal() {
+            username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('username-form').style.display = 'none';
+                document.getElementById('terminal-container').style.display = 'block';
+                prompt = ${username}@webshell:~$ ;
+                promptSpan.textContent = prompt;
+                inputField.focus();
+                inputField.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        handleCommand(this.value);
+                        this.value = '';
+                    }
+                });
+            }
+        }
+
+        function updatePrompt() {
+            terminal.innerHTML += <div class="terminal-line">${prompt}</div>;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function handleCommand(command) {
+            updatePrompt(); // Ensure prompt is displayed before command output
+            const currentPrompt = ${prompt}${command};
+            terminal.innerHTML += <div class="terminal-line">${currentPrompt}</div>;
+
+            fetch('https://web-terminal-eight.vercel.app/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command: command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                terminal.innerHTML += <div class="terminal-line">${data.stdout}</div>;
+                updatePrompt();
+            })
+            .catch(error => {
+                terminal.innerHTML += <div class="terminal-line">Error: ${error.message}</div>;
+                updatePrompt();
+            });
+        }
+    </script>
+</body>
+</html>
