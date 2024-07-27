@@ -21,3 +21,7 @@ To try it please tun this command:
 ```bash
 curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'
 ```
+Here is a screenshot of the terminal:
+
+![Screenshot 2024-07-27 8 42 42 AM](https://github.com/user-attachments/assets/1b272ece-2215-4777-b84f-1b01e14a18f6)
+
