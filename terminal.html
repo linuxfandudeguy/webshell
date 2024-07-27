@@ -101,7 +101,7 @@
             if (username) {
                 document.getElementById('username-form').style.display = 'none';
                 document.getElementById('terminal-container').style.display = 'block';
-                prompt = ${username}@webshell:~$ ;
+                prompt = `${username}@webshell:~$ `;
                 promptSpan.textContent = prompt;
                 inputField.focus();
                 inputField.addEventListener('keydown', function(event) {
@@ -115,14 +115,14 @@
         }
 
         function updatePrompt() {
-            terminal.innerHTML += <div class="terminal-line">${prompt}</div>;
+            terminal.innerHTML += `<div class="terminal-line">${prompt}</div>`;
             terminal.scrollTop = terminal.scrollHeight;
         }
 
         function handleCommand(command) {
             updatePrompt(); // Ensure prompt is displayed before command output
-            const currentPrompt = ${prompt}${command};
-            terminal.innerHTML += <div class="terminal-line">${currentPrompt}</div>;
+            const currentPrompt = `${prompt}${command}`;
+            terminal.innerHTML += `<div class="terminal-line">${currentPrompt}</div>`;
 
             fetch('https://web-terminal-eight.vercel.app/run', {
                 method: 'POST',
@@ -131,11 +131,11 @@
             })
             .then(response => response.json())
             .then(data => {
-                terminal.innerHTML += <div class="terminal-line">${data.stdout}</div>;
+                terminal.innerHTML += `<div class="terminal-line">${data.stdout}</div>`;
                 updatePrompt();
             })
             .catch(error => {
-                terminal.innerHTML += <div class="terminal-line">Error: ${error.message}</div>;
+                terminal.innerHTML += `<div class="terminal-line">Error: ${error.message}</div>`;
                 updatePrompt();
             });
         }
