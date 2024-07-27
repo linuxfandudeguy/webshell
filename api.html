@@ -14,12 +14,22 @@
       margin-top: 30px;
     }
     .section-title {
-      color: #9b59b6;
-      border-bottom: 2px solid #9b59b6;
+      color: #f0f0f0; /* Changed header text color */
+      border-bottom: 2px solid #f0f0f0; /* Matching border color */
       padding-bottom: 10px;
     }
     pre code {
-      color: #ffffff;
+      color: #9b59b6; /* Purple color for code blocks */
+    }
+    code {
+      color: #9b59b6; /* Purple color for inline code */
+    }
+    .btn-primary {
+      background-color: #9b59b6;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #8e44ad;
     }
     a {
       color: #9b59b6;
@@ -27,16 +37,53 @@
     a:hover {
       color: #fff;
     }
+    nav {
+      background-color: #333;
+    }
+    nav a {
+      color: #f0f0f0;
+    }
+    nav a:hover {
+      color: #9b59b6;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1 class="section-title">WebShell API Documentation</h1>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">WebShell</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="api.html">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="features.html">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="terminal.html">Getting Started</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
+<header class="text-center text-white py-5">
+  <div class="container">
+    <h1 class="display-4">WebShell API Documentation</h1>
+    <p class="lead">Learn how to use the WebShell API to execute commands programmatically.</p>
+  </div>
+</header>
+
+<div class="container">
   <section>
     <h2 class="section-title">Overview</h2>
-    <p>The WebShell API allows you to execute Fedora commands programmatically through HTTP POST requests. This API is designed to interact with a web-based Debian terminal, enabling you to run commands and retrieve their output in a structured format.</p>
+    <p>The WebShell API allows you to execute Fedora commands programmatically through HTTP POST requests. This API is designed to interact with a web-based Fedora terminal, enabling you to run commands and retrieve their output in a structured format.</p>
   </section>
 
   <section>
@@ -118,11 +165,11 @@
       <li>Use the API responsibly to avoid overloading the server with frequent or complex commands.</li>
     </ul>
   </section>
-
-  <footer class="text-center py-4">
-    <p>&copy; 2024 WebShell. All rights reserved.</p>
-  </footer>
 </div>
+
+<footer class="text-center py-4">
+  <p>&copy; 2024 WebShell. All rights reserved.</p>
+</footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
