@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebShell API Documentation</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #2e2e2e;
+      color: #f0f0f0;
+    }
+    .container {
+      margin-top: 30px;
+    }
+    .section-title {
+      color: #9b59b6;
+      border-bottom: 2px solid #9b59b6;
+      padding-bottom: 10px;
+    }
+    pre code {
+      color: #ffffff;
+    }
+    a {
+      color: #9b59b6;
+    }
+    a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="section-title">WebShell API Documentation</h1>
+
+  <section>
+    <h2 class="section-title">Overview</h2>
+    <p>The WebShell API allows you to execute Debian commands programmatically through HTTP POST requests. This API is designed to interact with a web-based Debian terminal, enabling you to run commands and retrieve their output in a structured format.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Base URL</h2>
+    <p><code>https://web-terminal-eight.vercel.app</code></p>
+  </section>
+
+  <section>
+    <h2 class="section-title">Endpoints</h2>
+
+    <h3>1. Run Command</h3>
+    <p><strong>Endpoint:</strong> <code>/run</code></p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Content-Type:</strong> application/json</p>
+
+    <h4>Description</h4>
+    <p>This endpoint allows you to execute a Debian command in the WebShell terminal. The command is provided as a JSON payload, and the API returns the output of the command.</p>
+
+    <h4>Request</h4>
+    <p><strong>URL:</strong></p>
+    <pre><code>https://web-terminal-eight.vercel.app/run</code></pre>
+    <p><strong>Headers:</strong></p>
+    <pre><code>Content-Type: application/json</code></pre>
+    <p><strong>Body:</strong></p>
+    <pre><code>{
+  "command": "your-command-here"
+}</code></pre>
+    <p>Replace <code>"your-command-here"</code> with the actual command you wish to run.</p>
+
+    <h4>Example Request</h4>
+    <p>To list files and directories in the current directory, you would use the following <code>curl</code> command:</p>
+    <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run \
+  -H "Content-Type: application/json" \
+  -d '{"command": "ls -l"}'</code></pre>
+
+    <h4>Response</h4>
+    <p>The response will be a JSON object with the following structure:</p>
+    <pre><code>{
+  "stdout": "command output here",
+  "stderr": "error output here",
+  "exitCode": exit_code
+}</code></pre>
+    <ul>
+      <li><code>stdout</code>: The standard output of the command.</li>
+      <li><code>stderr</code>: The standard error output of the command (if any).</li>
+      <li><code>exitCode</code>: The exit code of the command.</li>
+    </ul>
+
+    <h4>Example Response</h4>
+    <p>For the command <code>ls -l</code>, you might receive:</p>
+    <pre><code>{
+  "stdout": "total 2\ndrwxr-xr-x 67 root root 1187 Jul 27 00:36 node_modules\n-rwxr-xr-x  1 root root  303 Oct 20  2018 package.json\n-rwxr-xr-x  1 root root  753 Oct 20  2018 server.js\n"
+}</code></pre>
+
+    <h4>Error Handling</h4>
+    <ul>
+      <li><strong>400 Bad Request:</strong> The request was invalid. Ensure the JSON payload is properly formatted.</li>
+      <li><strong>500 Internal Server Error:</strong> An error occurred while processing the command. Check the server logs for details.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="section-title">Examples</h2>
+    <h4>Example 1: Listing Files</h4>
+    <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run \
+  -H "Content-Type: application/json" \
+  -d '{"command": "ls -l"}'</code></pre>
+
+    <h4>Example 2: Viewing Disk Usage</h4>
+    <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run \
+  -H "Content-Type: application/json" \
+  -d '{"command": "df -h"}'</code></pre>
+  </section>
+
+  <section>
+    <h2 class="section-title">Notes</h2>
+    <ul>
+      <li>Ensure that your command does not require interactive input, as the API does not support interactive sessions.</li>
+      <li>Use the API responsibly to avoid overloading the server with frequent or complex commands.</li>
+    </ul>
+  </section>
+
+  <footer class="text-center py-4">
+    <p>&copy; 2024 WebShell. All rights reserved.</p>
+  </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
