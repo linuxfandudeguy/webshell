@@ -38,7 +38,7 @@
             display: flex;
             align-items: center;
         }
-        #prompt {
+        .prompt {
             color: #9b59b6; /* Purple color */
             font-weight: bold;
             margin-right: 5px; /* Space between prompt and input */
@@ -94,7 +94,7 @@
     <div id="terminal-container">
         <pre id="terminal"></pre>
         <div class="prompt-container">
-            <span id="prompt"></span>
+            <span class="prompt" id="prompt"></span>
             <input type="text" id="input" autofocus />
         </div>
     </div>
@@ -124,16 +124,29 @@
             }
         }
 
-        function updatePrompt() {
-            terminal.innerHTML += `<div class="terminal-line">${prompt}</div>`;
+        function appendLine(content, isPrompt = false) {
+            let line = document.createElement('div');
+            line.className = 'terminal-line';
+            if (isPrompt) {
+                let promptSpan = document.createElement('span');
+                promptSpan.textContent = prompt;
+                promptSpan.className = 'prompt';
+                line.appendChild(promptSpan);
+
+                let contentSpan = document.createElement('span');
+                contentSpan.textContent = content;
+                line.appendChild(contentSpan);
+            } else {
+                line.textContent = content;
+            }
+            terminal.appendChild(line);
             terminal.scrollTop = terminal.scrollHeight;
         }
 
         function handleCommand(command) {
-            updatePrompt(); // Ensure prompt is displayed before command output
-            const currentPrompt = `${prompt}${command}`;
-            terminal.innerHTML += `<div class="terminal-line">${currentPrompt}</div>`;
-
+            if (command.trim() !== '') {
+                appendLine(command, true); // Display the prompt with the command
+            }
             fetch('https://web-terminal-eight.vercel.app/run', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -141,12 +154,16 @@
             })
             .then(response => response.json())
             .then(data => {
-                terminal.innerHTML += `<div class="terminal-line">${data.stdout}</div>`;
-                updatePrompt();
+                if (data.error) {
+                    appendLine(`Error: ${data.error}`);
+                } else {
+                    appendLine(data.stdout);
+                }
+                appendLine('', true); // Display the prompt for the next command
             })
             .catch(error => {
-                terminal.innerHTML += `<div class="terminal-line">Error: ${error.message}</div>`;
-                updatePrompt();
+                appendLine(`Error: ${error.message}`);
+                appendLine('', true); // Display the prompt for the next command
             });
         }
     </script>
