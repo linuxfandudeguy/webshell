@@ -16,3 +16,8 @@ Method: POST
 Headers: Content-Type: application/json
 Body: {"command": "your_linux_command_here"}
 ```
+To try it please tun this command:
+
+```bash
+curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'
+```
