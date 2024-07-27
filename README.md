@@ -10,7 +10,9 @@ WebShell is a RHEL based terminal.
 The distro that it uses is **Amazon Linux** which is based on **Fedora/CentOS**.
 
 WebShell has a API:
-
-```shell
-curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'
+```http
+Base URL: https://web-terminal-eight.vercel.app/run
+Method: POST
+Headers: Content-Type: application/json
+Body: {"command": "your_linux_command_here"}
 ```
