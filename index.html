@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebShell - Web-Based Debian Terminal</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #2e2e2e;
+      color: #f0f0f0;
+    }
+    .navbar {
+      background-color: #333;
+    }
+    .navbar-brand {
+      color: #9b59b6;
+    }
+    .navbar-brand:hover {
+      color: #fff;
+    }
+    .section {
+      padding: 60px 0;
+    }
+    .section-title {
+      color: #9b59b6;
+      border-bottom: 2px solid #9b59b6;
+      padding-bottom: 10px;
+    }
+    .card {
+      background-color: #444;
+      border: none;
+    }
+    .card-header {
+      background-color: #555;
+    }
+    .btn-primary {
+      background-color: #9b59b6;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #8e44ad;
+    }
+    pre code {
+      color: #ffffff;
+    }
+    a {
+      color: #9b59b6;
+    }
+    a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">WebShell</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#features">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#api">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#getting-started">Getting Started</a>
+      </li>
+      <li class="nav-item">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="text-center text-white py-5">
+  <div class="container">
+    <h1 class="display-4">Welcome to WebShell</h1>
+    <p class="lead">Your Gateway to a Full Debian Experience in Your Browser</p>
+    <a href="#features" class="btn btn-primary btn-lg">Learn More</a>
+  </div>
+</header>
+
+<section id="features" class="section text-center">
+  <div class="container">
+    <h2 class="section-title">Features</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Fully Interactive Terminal</h5>
+            <p class="card-text">Access a genuine Debian terminal with support for a wide range of commands and utilities, all from your browser.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Instant Access</h5>
+            <p class="card-text">Start using the terminal directly from your browser with no installation required.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Customizable Experience</h5>
+            <p class="card-text">Personalize your terminal with different prompts and themes to suit your preferences.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="api" class="section bg-dark text-white text-center">
+  <div class="container">
+    <h2 class="section-title">API Overview</h2>
+    <p>Run Debian commands programmatically through our API.</p>
+    <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'</code></pre>
+    <p>For more details, <a href="#" class="text-primary">view our API documentation</a>.</p>
+  </div>
+</section>
+
+<section id="getting-started" class="section text-center">
+  <div class="container">
+    <h2 class="section-title">Getting Started</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <h4><a href="terminal.html" class="btn btn-primary btn-lg">Open WebShell</a></h4>
+        <p>Start interacting with the Debian terminal directly from your browser.</p>
+      </div>
+      <div class="col-md-4">
+        <h4><a href="#" class="btn btn-primary btn-lg">View API Documentation</a></h4>
+        <p>Learn how to integrate terminal commands into your applications.</p>
+      </div>
+  
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="text-center py-4">
+  <div class="container">
+    <p>&copy; 2024 WebShell. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
