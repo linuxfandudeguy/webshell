@@ -1,6 +1,4 @@
-Got it, I'll focus more on the terminal and its functionalities. Here’s the updated README file:
 
----
 
 # WebShell
 
