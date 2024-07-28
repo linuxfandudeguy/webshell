@@ -47,6 +47,10 @@ WebShell uses AWS with a Node.js runtime deployed on Vercel. The `typeset` comma
 
 WebShell uses the `child_process.exec` export to run commands.
 
+The backend it uses to run commands is available as a zip file.
+
+> WebShell Should not be used for complicated tasks due to its restrictions.
+
 ## Licensing
 
 WebShell is licensed under the CC0-10 license.
