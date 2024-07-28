@@ -45,6 +45,8 @@ curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: applica
 
 WebShell uses AWS with a Node.js runtime deployed on Vercel. The `typeset` command in the terminal can display the environment variables.
 
+WebShell uses the `child_process` module to run commands.
+
 ## Licensing
 
 WebShell is licensed under the CC0-10 license.
