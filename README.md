@@ -25,3 +25,4 @@ Here is a screenshot of the terminal:
 
 ![Screenshot 2024-07-27 8 42 42 AM](https://github.com/user-attachments/assets/1b272ece-2215-4777-b84f-1b01e14a18f6)
 
+It uses AWS with a Node.js runtime deployed on Vercel.
