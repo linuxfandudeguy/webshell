@@ -40,6 +40,8 @@ curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: applica
 
 ![Screenshot 2024-07-27 8 42 42 AM](https://github.com/user-attachments/assets/1b272ece-2215-4777-b84f-1b01e14a18f6)
 
+### API View
+![Screenshot 2024-07-28 11 49 40 AM](https://github.com/user-attachments/assets/a4a4ecd2-7b37-4744-891d-b5aa6c6a136e)
 
 ## How it Works
 
