@@ -53,7 +53,7 @@ The backend it uses to run commands is available as a zip file.
 
 ## Licensing
 
-WebShell is licensed under the CC0-10 license.
+WebShell is licensed under the CC0-1.0 license.
 
 ## Contact
 
