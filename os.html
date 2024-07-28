@@ -85,6 +85,45 @@
             height: 100%;
             z-index: -1;
         }
+        .settings-panel {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+        .settings-panel .form-group {
+            margin-bottom: 20px;
+        }
+        .settings-panel label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .settings-panel input[type="text"],
+        .settings-panel input[type="color"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .settings-panel button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .settings-panel .close-settings {
+            background-color: #f44336;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -96,9 +135,27 @@
         <img src="https://demo-opensource.rammerhead.org/logo.png" class="icon" alt="Browser Icon" onclick="openWindow('browser', 'https://browser.rammerhead.org/', 'Browser')">
         <img src="https://code.visualstudio.com/assets/images/code-stable.png" class="icon" alt="Editor Icon" onclick="openWindow('editor', 'https://uncors.vercel.app/?url=https://vscode.dev/', 'Editor')">
         <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bce61c2d-f08e-4cff-ab33-6360bdffd6e8/dejrefj-aca41e18-f2bd-4df9-8df5-d4820f97b128.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjZTYxYzJkLWYwOGUtNGNmZi1hYjMzLTYzNjBiZGZmZDZlOFwvZGVqcmVmai1hY2E0MWUxOC1mMmJkLTRkZjktOGRmNS1kNDgyMGY5N2IxMjgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.q8wJw_FLnnxHUBV9w-DjsgSJH9J1VwEePu4BbwY7nAE" class="icon" alt="File Explorer Icon" onclick="openWindow('fileExplorer', 'https://demo.filebrowser.org/files/', 'File Explorer')">
+        <img src="https://image.shutterstock.com/image-vector/settings-icon-260nw-1709327026.jpg" class="icon" alt="Settings Icon" onclick="toggleSettingsPanel()">
+    </div>
+
+    <div id="settingsPanel" class="settings-panel">
+        <div class="form-group">
+            <label for="backgroundURL">Desktop Background URL:</label>
+            <input type="text" id="backgroundURL" placeholder="Enter the image URL">
+        </div>
+        <div class="form-group">
+            <label for="headerColor">Window Header Color:</label>
+            <input type="color" id="headerColor">
+        </div>
+        <button onclick="applySettings()">Apply</button>
+        <button class="close-settings" onclick="toggleSettingsPanel()">Close</button>
     </div>
 
     <script>
+        // Default settings
+        let backgroundURL = 'https://github.com/thomas10-10/foo-Wallpaper-Feh-Gif/raw/master/desktop-animation2.gif';
+        let headerColor = '#4b0082';
+
         document.getElementById('desktop').addEventListener('dragover', function(event) {
             event.preventDefault();
         });
@@ -126,7 +183,7 @@
                 windowDiv.style.top = '50px';
                 windowDiv.style.left = '50px';
                 windowDiv.innerHTML = `
-                    <div class="window-header">
+                    <div class="window-header" style="background-color: ${headerColor};">
                         <span>${title}</span>
                         <div class="controls">
                             <button class="fullscreen" onclick="toggleFrameFullScreen('${id}Frame')">&#x25A3;</button>
@@ -184,6 +241,32 @@
                 document.exitFullscreen();
             }
         }
+
+        function toggleSettingsPanel() {
+            const settingsPanel = document.getElementById('settingsPanel');
+            settingsPanel.style.display = settingsPanel.style.display === 'none' || settingsPanel.style.display === '' ? 'block' : 'none';
+        }
+
+        function applySettings() {
+            backgroundURL = document.getElementById('backgroundURL').value;
+            headerColor = document.getElementById('headerColor').value;
+
+            if (backgroundURL) {
+                document.body.style.backgroundImage = 'url(' + backgroundURL + ')';
+            }
+            if (headerColor) {
+                const headers = document.querySelectorAll('.window-header');
+                headers.forEach(header => {
+                    header.style.backgroundColor = headerColor;
+                });
+            }
+        }
+
+        // Set initial styles
+        document.body.style.backgroundImage = 'url(' + backgroundURL + ')';
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.style.backgroundColor = headerColor;
+        });
     </script>
 </body>
 </html>
