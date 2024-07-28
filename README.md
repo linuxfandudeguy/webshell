@@ -10,7 +10,7 @@ WebShell is a browser-based Linux terminal experience designed for **development
 
 - **RHEL-based terminal**: The terminal uses **Amazon Linux**, which is based on **Fedora/CentOS**.
 - **Browser-based**: Access a fully interactive Linux terminal directly from your browser.
-- **Pre-installed tools**: Essential development tools and utilities are available, such as `curl`.
+- **Pre-installed tools**: Essential development tools and utilities are available.
 - **API Access**: Programmatically run commands via an API.
 
 ## API
@@ -28,7 +28,7 @@ Body: {"command": "your_linux_command_here"}
 
 ### Example
 
-To try it, run the following command:
+To try it, run the following command in your system terminal if `curl` is installed:
 
 ```bash
 curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'
