@@ -47,7 +47,7 @@ WebShell uses AWS with a Node.js runtime deployed on Vercel. The `typeset` comma
 
 ## Licensing
 
-WebShell is licensed under the Creative Commons V0.0 license.
+WebShell is licensed under the CC0-10 license.
 
 ## Contact
 
