@@ -153,8 +153,8 @@
   <p>This example changes the background color to red for the text "This text has a red background".</p>
   <h4>Change Text Color</h4>
   <p>Similarly, you can change the text color using ANSI escape codes:</p>
-  <pre><code>echo -e "\x1b[38;2;0;255;0m This text is green \x1b[0m"</code></pre>
-  <p>This example changes the text color to green for "This text is green".</p>
+  <pre><code>echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"</code></pre>
+  <p>This example prints "RAINBOW" in rainbow text using ANSI.</p>
 
   <h3>File Type Colorization</h3>
   <p>Customize file type colorization based on file extensions using ANSI escape codes. You can create custom color rules for different file types:</p>
