@@ -110,6 +110,21 @@
   <p>WebShell is designed to be modular and scalable, allowing easy updates and enhancements. The system focuses on performance and security to ensure a reliable user experience.</p>
 </section>
 
+<section class="container">
+  <h2 class="section-title">Using ANSI Escape Codes for Customization</h2>
+  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
+  <h3>Change Background Color</h3>
+  <p>You can change the background color of your text using the following command:</p>
+  <pre><code>echo -e "\x1b[48;2;0;128;0mThis is green background text\x1b[0m"</code></pre>
+  <p>This command sets the background color to green (RGB: 0, 128, 0) and then resets the color to default.</p>
+  <h3>Example of Rainbow Text</h3>
+  <p>Here's an example of how to create rainbow-colored text using ANSI escape codes:</p>
+  <pre><code>
+echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"
+  </code></pre>
+  <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
+</section>
+
 <footer class="text-center py-4">
   <p>&copy; 2024 WebShell. All rights reserved.</p>
 </footer>
