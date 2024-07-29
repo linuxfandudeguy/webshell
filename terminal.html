@@ -119,6 +119,7 @@
                 document.getElementById('terminal-container').style.display = 'block';
                 prompt = `${username}@webshell:~$ `;
                 promptSpan.textContent = prompt;
+                appendLine(getStartupASCII(), false); // Display ASCII art on startup
                 inputField.focus();
                 inputField.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter') {
@@ -154,6 +155,17 @@
                 if (command.startsWith('setfont ')) {
                     const url = command.slice(8).trim();
                     setFont(url);
+                } else if (command.startsWith('setcolor ')) {
+                    const color = command.slice(9).trim();
+                    setTextColor(color);
+                } else if (command.startsWith('setbgcolor ')) {
+                    const color = command.slice(11).trim();
+                    setBackgroundColor(color);
+                } else if (command.startsWith('setfontsize ')) {
+                    const size = command.slice(12).trim();
+                    setFontSize(size);
+                } else if (command === 'clear') {
+                    clearTerminal();
                 } else {
                     fetch('https://web-terminal-eight.vercel.app/run', {
                         method: 'POST',
@@ -203,6 +215,37 @@
                 }
             `;
             document.head.appendChild(style);
+        }
+
+        function setTextColor(color) {
+            document.getElementById('terminal-container').style.color = color;
+            document.getElementById('input').style.color = color;
+        }
+
+        function setBackgroundColor(color) {
+            document.getElementById('terminal-container').style.backgroundColor = color;
+        }
+
+        function setFontSize(size) {
+            document.getElementById('terminal-container').style.fontSize = size;
+            document.getElementById('input').style.fontSize = size;
+        }
+
+        function clearTerminal() {
+            terminal.innerHTML = '';
+        }
+
+        function getStartupASCII() {
+            return `
+ __        __   _    ____  _          _ _ 
+ \\ \\      / /__| |__/ ___|| |__   ___| | |
+  \\ \\ /\\ / / _ \\ '_ \\___ \\| '_ \\ / _ \\ | |
+   \\ V  V /  __/ |_) |__) | | | |  __/ | |
+    \\_/\\_/ \\___|_.__/____/|_| |_|\___|_|_|
+            
+© 2024 lelbois. WebShell is licensed under the CC0-1.0 license.
+
+            `;
         }
 
         function parseANSI(input) {
