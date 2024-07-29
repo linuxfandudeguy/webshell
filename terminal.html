@@ -34,6 +34,7 @@
             margin: 0;
             display: flex;
             align-items: center;
+            font-family: monospace; /* Ensure font is applied to all lines */
         }
         .prompt-container {
             display: flex;
@@ -147,26 +148,61 @@
 
         function handleCommand(command) {
             if (command.trim() !== '') {
-                appendLine(parseANSI(`<span class="prompt">${prompt}</span>${command}`), true); // Display the command with ANSI parsing
-            }
-            fetch('https://web-terminal-eight.vercel.app/run', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ command: command })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    appendLine(`<span style="color: #ff0000;">Error: ${data.error}</span>`);
+                appendLine(parseANSI(`<span class="prompt">${prompt}</span>${sanitizeHTML(command)}`), true); // Display the command with ANSI parsing
+
+                // Check if the command is for changing the font
+                if (command.startsWith('setfont ')) {
+                    const url = command.slice(8).trim();
+                    setFont(url);
                 } else {
-                    appendLine(parseANSI(data.stdout));
+                    fetch('https://web-terminal-eight.vercel.app/run', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: command })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(data.error)}</span>`);
+                        } else {
+                            appendLine(parseANSI(sanitizeHTML(data.stdout)));
+                        }
+                        appendLine('', true); // Display the prompt for the next command
+                    })
+                    .catch(error => {
+                        appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(error.message)}</span>`);
+                        appendLine('', true); // Display the prompt for the next command
+                    });
                 }
-                appendLine('', true); // Display the prompt for the next command
-            })
-            .catch(error => {
-                appendLine(`<span style="color: #ff0000;">Error: ${error.message}</span>`);
-                appendLine('', true); // Display the prompt for the next command
-            });
+            }
+        }
+
+        function sanitizeHTML(html) {
+            const div = document.createElement('div');
+            div.textContent = html;
+            return div.innerHTML;
+        }
+
+        function setFont(url) {
+            // Remove any existing custom font-face rules
+            const existingStyle = document.getElementById('custom-font-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+
+            // Create a new style element for the custom font
+            const style = document.createElement('style');
+            style.id = 'custom-font-style';
+            style.innerHTML = `
+                @font-face {
+                    font-family: 'CustomFont';
+                    src: url('${url}');
+                }
+                body, #terminal-container, #input, #username, button, .terminal-line {
+                    font-family: 'CustomFont', monospace;
+                }
+            `;
+            document.head.appendChild(style);
         }
 
         function parseANSI(input) {
@@ -179,7 +215,7 @@
 
             parts.forEach((part, index) => {
                 if (index % 2 === 0) { // Text part
-                    result += part; // Regular text
+                    result += part; // No need to sanitize HTML for prompt or ANSI sequences
                 } else { // ANSI sequence part
                     const codes = part.split(';');
                     const foregroundIndex = codes[0];
