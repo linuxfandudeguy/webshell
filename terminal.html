@@ -27,9 +27,10 @@
             position: relative;
             font-size: 14px;
             width: 100vw;
+            box-sizing: border-box;
         }
         .terminal-line {
-            white-space: pre;
+            white-space: pre-wrap; /* Preserve whitespace */
             margin: 0;
             display: flex;
             align-items: center;
@@ -131,25 +132,22 @@
         function appendLine(content, isPrompt = false) {
             let line = document.createElement('div');
             line.className = 'terminal-line';
-            if (isPrompt) {
-                let promptSpan = document.createElement('span');
-                promptSpan.textContent = prompt;
-                promptSpan.className = 'prompt';
-                line.appendChild(promptSpan);
-
-                let contentSpan = document.createElement('span');
-                contentSpan.textContent = content;
-                line.appendChild(contentSpan);
-            } else {
-                line.textContent = content;
-            }
+            line.innerHTML = content; // Allow HTML content
             terminal.appendChild(line);
             terminal.scrollTop = terminal.scrollHeight;
+            
+            if (isPrompt) {
+                let promptLine = document.createElement('div');
+                promptLine.className = 'terminal-line';
+                promptLine.innerHTML = `<span class="prompt">${prompt}</span>`; // Ensure prompt styling is maintained
+                terminal.appendChild(promptLine);
+                terminal.scrollTop = terminal.scrollHeight; // Ensure prompt is visible
+            }
         }
 
         function handleCommand(command) {
             if (command.trim() !== '') {
-                appendLine(command, true); // Display the prompt with the command
+                appendLine(parseANSI(`<span class="prompt">${prompt}</span>${command}`), true); // Display the command with ANSI parsing
             }
             fetch('https://web-terminal-eight.vercel.app/run', {
                 method: 'POST',
@@ -159,16 +157,55 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    appendLine(`Error: ${data.error}`);
+                    appendLine(`<span style="color: #ff0000;">Error: ${data.error}</span>`);
                 } else {
-                    appendLine(data.stdout);
+                    appendLine(parseANSI(data.stdout));
                 }
                 appendLine('', true); // Display the prompt for the next command
             })
             .catch(error => {
-                appendLine(`Error: ${error.message}`);
+                appendLine(`<span style="color: #ff0000;">Error: ${error.message}</span>`);
                 appendLine('', true); // Display the prompt for the next command
             });
+        }
+
+        function parseANSI(input) {
+            // Regex to match ANSI escape codes
+            const ansiRegex = /\x1b\[([0-9;]*)m/g; // Matches ANSI sequences like \x1b[38;2;R;G;Bm
+
+            // Split the input on ANSI escape sequences keeping the sequences in the result
+            const parts = input.split(ansiRegex);
+            let result = '';
+
+            parts.forEach((part, index) => {
+                if (index % 2 === 0) { // Text part
+                    result += part; // Regular text
+                } else { // ANSI sequence part
+                    const codes = part.split(';');
+                    const foregroundIndex = codes[0];
+                    let colorStyle = '';
+                    
+                    // Check if it's a color change
+                    if (foregroundIndex === '38') {
+                        // 24-bit RGB color formatting: 38;2;R;G;B
+                        const r = parseInt(codes[2]);
+                        const g = parseInt(codes[3]);
+                        const b = parseInt(codes[4]);
+                        colorStyle = `color: rgb(${r}, ${g}, ${b});`;
+                    } else if (codes[0] === '48') {
+                        // Background color
+                        const r = parseInt(codes[2]);
+                        const g = parseInt(codes[3]);
+                        const b = parseInt(codes[4]);
+                        colorStyle = `background-color: rgb(${r}, ${g}, ${b});`;
+                    }
+
+                    // If there's a colorStyle, wrap the subsequent text with a span tag
+                    result += `<span style="${colorStyle}">`;
+                }
+            });
+
+            return result + '</span>'; // Close the last span
         }
     </script>
 </body>
