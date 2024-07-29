@@ -3,36 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebShell - Web-Based Linux Terminal</title>
+  <title>WebShell Features</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
       background-color: #2e2e2e;
       color: #f0f0f0;
     }
-    .navbar {
-      background-color: #333;
-    }
-    .navbar-brand {
-      color: #9b59b6;
-    }
-    .navbar-brand:hover {
-      color: #fff;
-    }
-    .section {
-      padding: 60px 0;
+    .container {
+      margin-top: 30px;
     }
     .section-title {
       color: #9b59b6;
       border-bottom: 2px solid #9b59b6;
       padding-bottom: 10px;
     }
-    .card {
-      background-color: #444;
-      border: none;
-    }
-    .card-header {
-      background-color: #555;
+    pre code {
+      color: #ffffff;
     }
     .btn-primary {
       background-color: #9b59b6;
@@ -40,9 +27,6 @@
     }
     .btn-primary:hover {
       background-color: #8e44ad;
-    }
-    pre code {
-      color: #ffffff;
     }
     a {
       color: #9b59b6;
@@ -54,7 +38,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #333;">
   <a class="navbar-brand" href="#">WebShell</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -62,10 +46,13 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="features.html">Features</a>
+        <a class="nav-link" href="index.html">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="api.html">API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="terminal.html">Getting Started</a>
@@ -76,83 +63,70 @@
 
 <header class="text-center text-white py-5">
   <div class="container">
-    <h1 class="display-4">Welcome to WebShell</h1>
-    <p class="lead">Your Gateway to a Full Linux Experience in Your Browser</p>
-    <a href="learn-more.html" class="btn btn-primary btn-lg">Learn More</a>
+    <h1 class="display-4">WebShell Features</h1>
+    <p class="lead">Discover the power and versatility of our web-based Debian terminal.</p>
   </div>
 </header>
 
-<section id="features" class="section text-center">
-  <div class="container">
-    <h2 class="section-title">Features</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Fully Interactive Terminal</h5>
-            <p class="card-text">Access a genuine Fedora terminal with support for a wide range of commands and utilities, all from your browser.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Instant Access</h5>
-            <p class="card-text">Start using the terminal directly from your browser with no installation required.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Customizable Experience</h5>
-            <p class="card-text">Personalize your terminal with different prompts and themes to suit your preferences.</p>
-          </div>
-        </div>
-      </div>
+<section class="container">
+  <h2 class="section-title">Features</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <h3>Fully Interactive Terminal</h3>
+      <p>Experience a genuine Debian terminal environment in your browser. Run various Linux commands, explore file systems, and interact with your environment as if you were using a local terminal.</p>
+      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'</code></pre>
+      <p>This command lists files in the current directory, showcasing the terminal's capability to execute common commands.</p>
+    </div>
+    <div class="col-md-6 mb-4">
+      <h3>Instant Access</h3>
+      <p>Launch the terminal directly from your browser with no setup or installation required. Ideal for quick tasks and experiments, WebShell provides immediate access to a Debian environment.</p>
+      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "df -h"}'</code></pre>
+      <p>This command displays disk usage, illustrating how WebShell can be used for various administrative tasks.</p>
+    </div>
+    <div class="col-md-6 mb-4">
+      <h3>Customizable Experience</h3>
+      <p>Although WebShell is not highly customizable, it provides an easy-on-the-eyes experience with its default settings. Tailor the terminal's appearance to some extent to make your terminal experience pleasant.</p>
+      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "echo $PS1"}'</code></pre>
+      <p>This command shows the current shell prompt, which can be customized according to user preferences within the limits of the current design.</p>
+    </div>
+    <div class="col-md-6 mb-4">
+      <h3>API Integration</h3>
+      <p>WebShell's API allows you to integrate terminal commands into your applications. Use the API to execute commands remotely and retrieve results programmatically.</p>
+      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "cat /proc/uptime"}'</code></pre>
+      <p>This command returns system uptime, demonstrating how the API can be used for monitoring and automation.</p>
     </div>
   </div>
 </section>
 
-<section id="api" class="section bg-dark text-white text-center">
-  <div class="container">
-    <h2 class="section-title">API Overview</h2>
-    <p>Run Debian commands programmatically through our API.</p>
-    <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'</code></pre>
-    <p>For more details, <a href="api.html" class="text-primary">view our API documentation</a>.</p>
-  </div>
+<section class="container">
+  <h2 class="section-title">How It Was Made</h2>
+  <p>WebShell combines a web-based terminal interface with a robust API to deliver a seamless Debian experience. Built using modern web technologies, it provides a user-friendly way to interact with a Debian environment directly from your browser.</p>
+  <h3>Technologies Used</h3>
+  <ul>
+    <li><strong>Node.js:</strong> For backend services and command execution using the <code>child_process</code> module.</li>
+    <li><strong>Express.js:</strong> To handle HTTP requests and API endpoints.</li>
+    <li><strong>Bootstrap:</strong> For responsive and customizable UI design (used in the website, not part of the terminal functionality).</li>
+  </ul>
+  <p>WebShell is designed to be modular and scalable, allowing easy updates and enhancements. The system focuses on performance and security to ensure a reliable user experience.</p>
 </section>
 
-<section id="getting-started" class="section text-center">
-  <div class="container">
-    <h2 class="section-title">Getting Started</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <h4><a href="/terminal.html" class="btn btn-primary btn-lg">Open WebShell</a></h4>
-        <p>Start interacting with the Fedora terminal directly from your browser.</p>
-      </div>
-      <div class="col-md-4">
-        <h4><a href="api.html" class="btn btn-primary btn-lg">View API Documentation</a></h4>
-        <p>Learn how to integrate terminal commands into your applications.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="webshell-os" class="section text-center">
-  <div class="container">
-    <h2 class="section-title">Introducing WebShell OS</h2>
-    <p>Experience a fully interactive web-based operating system. Drag and drop windows, explore a mock file system, and enjoy a customized desktop environment, all from your browser.</p>
-    <p>WebShell allows you to drag and drop filesfrom your actual OS into the browser.</p>
-<P>The username and password for the file explorer is "demo".</P>
-<a href="https://webshell-omega.vercel.app/os.html" class="btn btn-primary btn-lg">Try WebShell OS</a>
-  </div>
+<section class="container">
+  <h2 class="section-title">Using ANSI Escape Codes for Customization</h2>
+  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
+  <h3>Change Background Color</h3>
+  <p>You can change the background color of your text using the following command:</p>
+  <pre><code>echo -e "\x1b[48;2;0;128;0mThis is green background text\x1b[0m"</code></pre>
+  <p>This command sets the background color to green (RGB: 0, 128, 0) and then resets the color to default.</p>
+  <h3>Example of Rainbow Text</h3>
+  <p>Here's an example of how to create rainbow-colored text using ANSI escape codes:</p>
+  <pre><code>
+echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"
+  </code></pre>
+  <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
 </section>
 
 <footer class="text-center py-4">
-  <div class="container">
-    <p>&copy; 2024 WebShell. All rights reserved.</p>
-  </div>
+  <p>&copy; 2024 WebShell. All rights reserved.</p>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
