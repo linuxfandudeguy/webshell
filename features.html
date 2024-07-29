@@ -125,6 +125,27 @@ echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;
   <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
 </section>
 
+<section class="container">
+  <h2 class="section-title">Custom Fonts with `setfont` Command</h2>
+  <p>WebShell allows you to change the font used in the terminal by using the `setfont` command. You can specify a URL to a font file (e.g., TTF or OTF) to apply a custom font to the entire terminal, including command output and prompt.</p>
+  
+  <h3>How to Use the `setfont` Command</h3>
+  <p>To change the font, use the following command:</p>
+  <pre><code>setfont &lt;font-url&gt;</code></pre>
+  <p>Replace &lt;font-url&gt; with the URL of the font you want to use.</p>
+  
+  <h3>Font Examples</h3>
+  <h4>Pixel NES Font</h4>
+  <p>To use the Pixel NES font, run:</p>
+  <pre><code>setfont https://webshell-omega.vercel.app/assets/fonts/Pixel_NES.ttf</code></pre>
+  <p>This will set the terminal's font to Pixel NES, giving it a retro, pixelated look.</p>
+  
+  <h4>Greater Theory Font</h4>
+  <p>To use the Greater Theory font, run:</p>
+  <pre><code>setfont https://webshell-omega.vercel.app/assets/fonts/GreaterTheory.otf</code></pre>
+  <p>This will apply the Greater Theory font, providing a more modern and stylish appearance to the terminal text.</p>
+</section>
+
 <footer class="text-center py-4">
   <p>&copy; 2024 WebShell. All rights reserved.</p>
 </footer>
