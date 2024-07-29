@@ -51,6 +51,7 @@ WebShell has a variety of commands that allow you to customize your shell to how
 - `setfont` - Allows you to change the font of the terminalBy providing a font URL in `otf` or `ttf`.
 - `setcolor` - Allows you to change the background color by providing a hex code.
 - `setbgcolor` - Allows you to change the background color by providing a hex code.
+- `setprompt` - Allows you to change the prompt of the terminal `admin@webshell:~$` to whatever you want.
 
 The usage example of each command is below:
 
@@ -65,6 +66,10 @@ setbgcolor #000000
 ```
 ```bash
 setfontsize 16px
+```
+
+```bash
+setprompt foo@localhost~$
 ```
 
 ## How it Works
