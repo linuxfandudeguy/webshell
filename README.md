@@ -43,6 +43,12 @@ curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: applica
 ### API View
 ![Screenshot 2024-07-28 11 49 40 AM](https://github.com/user-attachments/assets/a4a4ecd2-7b37-4744-891d-b5aa6c6a136e)
 
+## Customization Commands
+
+WebShell Has a variety of commands that allow you to customize your shell to however you want.
+
+- `setfontsize`
+
 ## How it Works
 
 WebShell uses AWS with a Node.js runtime deployed on Vercel. The `typeset` command in the terminal can display the environment variables.
