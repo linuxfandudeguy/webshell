@@ -99,6 +99,57 @@
 </section>
 
 <section class="container">
+  <h2 class="section-title">Terminal Customization Commands</h2>
+  <p>WebShell provides several commands to customize the appearance and behavior of the terminal. Here are the commands available:</p>
+  
+  <h3>Font Customization</h3>
+  <p>Change the terminal font using the <code>setfont</code> command. You can specify a URL to a font file to apply a custom font to the terminal:</p>
+  <pre><code>setfont &lt;font-url&gt;</code></pre>
+  <p>Example commands:</p>
+  <ul>
+    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/Pixel_NES.ttf</code> - Applies the Pixel NES font.</li>
+    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/GreaterTheory.otf</code> - Applies the Greater Theory font.</li>
+    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/Code.ttf</code> - Applies the Code font.</li>
+  </ul>
+
+  <h3>Text and Background Color Customization</h3>
+  <p>Customize text and background colors using the following commands:</p>
+  <pre><code>setcolor &lt;color&gt;</code></pre>
+  <pre><code>setbgcolor &lt;color&gt;</code></pre>
+  <p>Replace &lt;color&gt; with a color name (e.g., <code>red</code>) or hex code (e.g., <code>#ff0000</code>). Example commands:</p>
+  <ul>
+    <li><code>setcolor #ff0000</code> - Sets text color to red.</li>
+    <li><code>setbgcolor #000000</code> - Sets background color to black.</li>
+  </ul>
+
+  <h3>Font Size Customization</h3>
+  <p>Adjust the font size of the terminal using the <code>setfontsize</code> command:</p>
+  <pre><code>setfontsize &lt;font-size&gt;</code></pre>
+  <p>Example commands:</p>
+  <ul>
+    <li><code>setfontsize 16px</code> - Sets the font size to 16 pixels.</li>
+    <li><code>setfontsize 1.2em</code> - Sets the font size to 1.2 em.</li>
+  </ul>
+
+  <h3>Clear Terminal</h3>
+  <p>Clear all content from the terminal using the <code>clear</code> command:</p>
+  <pre><code>clear</code></pre>
+
+  <h3>Using ANSI Escape Codes for Customization</h3>
+  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
+  <h4>Change Background Color</h4>
+  <p>You can change the background color of your text using the following command:</p>
+  <pre><code>echo -e "\x1b[48;2;0;128;0mThis is green background text\x1b[0m"</code></pre>
+  <p>This command sets the background color to green (RGB: 0, 128, 0) and then resets the color to default.</p>
+  <h4>Example of Rainbow Text</h4>
+  <p>Here's an example of how to create rainbow-colored text using ANSI escape codes:</p>
+  <pre><code>
+echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"
+  </code></pre>
+  <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
+</section>
+
+<section class="container">
   <h2 class="section-title">How It Was Made</h2>
   <p>WebShell combines a web-based terminal interface with a robust API to deliver a seamless Debian experience. Built using modern web technologies, it provides a user-friendly way to interact with a Debian environment directly from your browser.</p>
   <h3>Technologies Used</h3>
@@ -108,47 +159,6 @@
     <li><strong>Bootstrap:</strong> For responsive and customizable UI design (used in the website, not part of the terminal functionality).</li>
   </ul>
   <p>WebShell is designed to be modular and scalable, allowing easy updates and enhancements. The system focuses on performance and security to ensure a reliable user experience.</p>
-</section>
-
-<section class="container">
-  <h2 class="section-title">Using ANSI Escape Codes for Customization</h2>
-  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
-  <h3>Change Background Color</h3>
-  <p>You can change the background color of your text using the following command:</p>
-  <pre><code>echo -e "\x1b[48;2;0;128;0mThis is green background text\x1b[0m"</code></pre>
-  <p>This command sets the background color to green (RGB: 0, 128, 0) and then resets the color to default.</p>
-  <h3>Example of Rainbow Text</h3>
-  <p>Here's an example of how to create rainbow-colored text using ANSI escape codes:</p>
-  <pre><code>
-echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"
-  </code></pre>
-  <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
-</section>
-
-<section class="container">
-  <h2 class="section-title">Custom Fonts with `setfont` Command</h2>
-  <p>WebShell allows you to change the font used in the terminal by using the `setfont` command. You can specify a URL to a font file (e.g., TTF or OTF) to apply a custom font to the entire terminal, including command output and prompt.</p>
-  
-  <h3>How to Use the `setfont` Command</h3>
-  <p>To change the font, use the following command:</p>
-  <pre><code>setfont &lt;font-url&gt;</code></pre>
-  <p>Replace &lt;font-url&gt; with the URL of the font you want to use.</p>
-  
-  <h3>Font Examples</h3>
-  <h4>Pixel NES Font</h4>
-  <p>To use the Pixel NES font, run:</p>
-  <pre><code>setfont https://webshell-omega.vercel.app/assets/fonts/Pixel_NES.ttf</code></pre>
-  <p>This will set the terminal's font to Pixel NES, giving it a retro, pixelated look.</p>
-  
-  <h4>Greater Theory Font</h4>
-  <p>To use the Greater Theory font, run:</p>
-  <pre><code>setfont https://webshell-omega.vercel.app/assets/fonts/GreaterTheory.otf</code></pre>
-  <p>This will apply the Greater Theory font, providing a more modern and stylish appearance to the terminal text.</p>
-  
-  <h4>Code Font</h4>
-  <p>To use the Code font, run:</p>
-  <pre><code>setfont https://webshell-omega.vercel.app/assets/fonts/Code.ttf</code></pre>
-  <p>This will apply the Code for font pixelated terminal text.</p>
 </section>
 
 <footer class="text-center py-4">
