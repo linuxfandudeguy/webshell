@@ -1,172 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebShell Features</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body {
-      background-color: #2e2e2e;
-      color: #f0f0f0;
-    }
-    .container {
-      margin-top: 30px;
-    }
-    .section-title {
-      color: #9b59b6;
-      border-bottom: 2px solid #9b59b6;
-      padding-bottom: 10px;
-    }
-    pre code {
-      color: #ffffff;
-    }
-    .btn-primary {
-      background-color: #9b59b6;
-      border: none;
-    }
-    .btn-primary:hover {
-      background-color: #8e44ad;
-    }
-    a {
-      color: #9b59b6;
-    }
-    a:hover {
-      color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebShell Terminal</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000; /* Set background to black */
+            color: #d4d4d4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #terminal-container {
+            display: none;
+            border: 1px solid #333;
+            padding: 10px;
+            height: 100vh;
+            overflow-y: auto;
+            background: #000;
+            color: #d4d4d4;
+            position: relative;
+            font-size: 14px;
+            width: 100vw;
+            box-sizing: border-box;
+        }
+        .terminal-line {
+            white-space: pre-wrap; /* Preserve whitespace */
+            margin: 0;
+            display: flex;
+            align-items: center;
+            font-family: monospace; /* Ensure font is applied to all lines */
+        }
+        .prompt-container {
+            display: flex;
+            align-items: center;
+        }
+        .prompt {
+            color: #9b59b6; /* Purple color */
+            font-weight: bold;
+            margin-right: 5px; /* Space between prompt and input */
+        }
+        #input {
+            border: none;
+            background: #000;
+            color: #d4d4d4;
+            outline: none;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        #username-form {
+            padding: 20px;
+            background: #000; /* Set background to black */
+            color: #d4d4d4;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            border: none; /* Remove outline */
+        }
+        #username {
+            background: #000;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px;
+            font-family: monospace;
+            outline: none;
+            font-size: 14px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #444;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #333;">
-  <a class="navbar-brand" href="#">WebShell</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="api.html">API</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="terminal.html">Getting Started</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<header class="text-center text-white py-5">
-  <div class="container">
-    <h1 class="display-4">WebShell Features</h1>
-    <p class="lead">Discover the power and versatility of our web-based Debian terminal.</p>
-  </div>
-</header>
-
-<section class="container">
-  <h2 class="section-title">Features</h2>
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <h3>Fully Interactive Terminal</h3>
-      <p>Experience a genuine Debian terminal environment in your browser. Run various Linux commands, explore file systems, and interact with your environment as if you were using a local terminal.</p>
-      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "ls -l"}'</code></pre>
-      <p>This command lists files in the current directory, showcasing the terminal's capability to execute common commands.</p>
+    <div id="username-form">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" value="admin" autofocus />
+        <button onclick="startTerminal()">Start Terminal</button>
     </div>
-    <div class="col-md-6 mb-4">
-      <h3>Instant Access</h3>
-      <p>Launch the terminal directly from your browser with no setup or installation required. Ideal for quick tasks and experiments, WebShell provides immediate access to a Debian environment.</p>
-      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "df -h"}'</code></pre>
-      <p>This command displays disk usage, illustrating how WebShell can be used for various administrative tasks.</p>
+    <div id="terminal-container">
+        <pre id="terminal"></pre>
+        <div class="prompt-container">
+            <span class="prompt" id="prompt"></span>
+            <input type="text" id="input" autofocus />
+        </div>
     </div>
-    <div class="col-md-6 mb-4">
-      <h3>Customizable Experience</h3>
-      <p>Although WebShell is not highly customizable, it provides an easy-on-the-eyes experience with its default settings. Tailor the terminal's appearance to some extent to make your terminal experience pleasant.</p>
-      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "echo $PS1"}'</code></pre>
-      <p>This command shows the current shell prompt, which can be customized according to user preferences within the limits of the current design.</p>
-    </div>
-    <div class="col-md-6 mb-4">
-      <h3>API Integration</h3>
-      <p>WebShell's API allows you to integrate terminal commands into your applications. Use the API to execute commands remotely and retrieve results programmatically.</p>
-      <pre><code>curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: application/json" -d '{"command": "cat /proc/uptime"}'</code></pre>
-      <p>This command returns system uptime, demonstrating how the API can be used for monitoring and automation.</p>
-    </div>
-  </div>
-</section>
 
-<section class="container">
-  <h2 class="section-title">Terminal Customization Commands</h2>
-  <p>WebShell provides several commands to customize the appearance and behavior of the terminal. Here are the commands available:</p>
-  
-  <h3>Font Customization</h3>
-  <p>Change the terminal font using the <code>setfont</code> command. You can specify a URL to a font file to apply a custom font to the terminal:</p>
-  <pre><code>setfont &lt;font-url&gt;</code></pre>
-  <p>Example commands:</p>
-  <ul>
-    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/Pixel_NES.ttf</code> - Applies the Pixel NES font.</li>
-    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/GreaterTheory.otf</code> - Applies the Greater Theory font.</li>
-    <li><code>setfont https://webshell-omega.vercel.app/assets/fonts/Code.ttf</code> - Applies the Code font.</li>
-  </ul>
+    <script>
+        let username = '';
+        let terminal = document.getElementById('terminal');
+        let inputField = document.getElementById('input');
+        let promptSpan = document.getElementById('prompt');
+        let prompt = '';
 
-  <h3>Text and Background Color Customization</h3>
-  <p>Customize text and background colors using the following commands:</p>
-  <pre><code>setcolor &lt;color&gt;</code></pre>
-  <pre><code>setbgcolor &lt;color&gt;</code></pre>
-  <p>Replace &lt;color&gt; with a color name (e.g., <code>red</code>) or hex code (e.g., <code>#ff0000</code>). Example commands:</p>
-  <ul>
-    <li><code>setcolor #ff0000</code> - Sets text color to red.</li>
-    <li><code>setbgcolor #000000</code> - Sets background color to black.</li>
-  </ul>
+        function startTerminal() {
+            username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('username-form').style.display = 'none';
+                document.getElementById('terminal-container').style.display = 'block';
+                prompt = `${username}@webshell:~$ `;
+                promptSpan.textContent = prompt;
+                appendLine(getStartupASCII(), false); // Display ASCII art on startup
+                inputField.focus();
+                inputField.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        handleCommand(this.value);
+                        this.value = '';
+                    }
+                });
+            }
+        }
 
-  <h3>Font Size Customization</h3>
-  <p>Adjust the font size of the terminal using the <code>setfontsize</code> command:</p>
-  <pre><code>setfontsize &lt;font-size&gt;</code></pre>
-  <p>Example commands:</p>
-  <ul>
-    <li><code>setfontsize 16px</code> - Sets the font size to 16 pixels.</li>
-    <li><code>setfontsize 1.2em</code> - Sets the font size to 1.2 em.</li>
-  </ul>
+        function appendLine(content, isPrompt = false) {
+            let line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = content; // Allow HTML content
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+            
+            if (isPrompt) {
+                let promptLine = document.createElement('div');
+                promptLine.className = 'terminal-line';
+                promptLine.innerHTML = `<span class="prompt">${prompt}</span>`; // Ensure prompt styling is maintained
+                terminal.appendChild(promptLine);
+                terminal.scrollTop = terminal.scrollHeight; // Ensure prompt is visible
+            }
+        }
 
-  <h3>Clear Terminal</h3>
-  <p>Clear all content from the terminal using the <code>clear</code> command:</p>
-  <pre><code>clear</code></pre>
+        function handleCommand(command) {
+            if (command.trim() !== '') {
+                appendLine(parseANSI(`<span class="prompt">${prompt}</span>${sanitizeHTML(command)}`), true); // Display the command with ANSI parsing
 
-  <h3>Using ANSI Escape Codes for Customization</h3>
-  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
-  <h4>Change Background Color</h4>
-  <p>You can change the background color of your text using the following command:</p>
-  <pre><code>echo -e "\x1b[48;2;0;128;0mThis is green background text\x1b[0m"</code></pre>
-  <p>This command sets the background color to green (RGB: 0, 128, 0) and then resets the color to default.</p>
-  <h4>Example of Rainbow Text</h4>
-  <p>Here's an example of how to create rainbow-colored text using ANSI escape codes:</p>
-  <pre><code>
-echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"
-  </code></pre>
-  <p>This command displays the word "RAINBOW" with each letter in a different color to create a rainbow effect.</p>
-</section>
+                // Check if the command is for changing the font
+                if (command.startsWith('setfont ')) {
+                    const url = command.slice(8).trim();
+                    setFont(url);
+                } else if (command.startsWith('setcolor ')) {
+                    const color = command.slice(9).trim();
+                    setTextColor(color);
+                } else if (command.startsWith('setbgcolor ')) {
+                    const color = command.slice(11).trim();
+                    setBackgroundColor(color);
+                } else if (command.startsWith('setfontsize ')) {
+                    const size = command.slice(12).trim();
+                    setFontSize(size);
+                } else if (command === 'clear') {
+                    clearTerminal();
+                } else {
+                    fetch('https://web-terminal-eight.vercel.app/run', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: command })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(data.error)}</span>`);
+                        } else {
+                            appendLine(parseANSI(sanitizeHTML(data.stdout)));
+                        }
+                        appendLine('', true); // Display the prompt for the next command
+                    })
+                    .catch(error => {
+                        appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(error.message)}</span>`);
+                        appendLine('', true); // Display the prompt for the next command
+                    });
+                }
+            }
+        }
 
-<section class="container">
-  <h2 class="section-title">How It Was Made</h2>
-  <p>WebShell combines a web-based terminal interface with a robust API to deliver a seamless Debian experience. Built using modern web technologies, it provides a user-friendly way to interact with a Debian environment directly from your browser.</p>
-  <h3>Technologies Used</h3>
-  <ul>
-    <li><strong>Node.js:</strong> For backend services and command execution using the <code>child_process</code> module.</li>
-    <li><strong>Express.js:</strong> To handle HTTP requests and API endpoints.</li>
-    <li><strong>Bootstrap:</strong> For responsive and customizable UI design (used in the website, not part of the terminal functionality).</li>
-  </ul>
-  <p>WebShell is designed to be modular and scalable, allowing easy updates and enhancements. The system focuses on performance and security to ensure a reliable user experience.</p>
-</section>
+        function sanitizeHTML(html) {
+            const div = document.createElement('div');
+            div.textContent = html;
+            return div.innerHTML;
+        }
 
-<footer class="text-center py-4">
-  <p>&copy; 2024 WebShell. All rights reserved.</p>
-</footer>
+        function setFont(url) {
+            // Remove any existing custom font-face rules
+            const existingStyle = document.getElementById('custom-font-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            // Create a new style element for the custom font
+            const style = document.createElement('style');
+            style.id = 'custom-font-style';
+            style.innerHTML = `
+                @font-face {
+                    font-family: 'CustomFont';
+                    src: url('${url}');
+                }
+                body, #terminal-container, #input, #username, button, .terminal-line {
+                    font-family: 'CustomFont', monospace;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function setTextColor(color) {
+            document.getElementById('terminal-container').style.color = color;
+            document.getElementById('input').style.color = color;
+        }
+
+        function setBackgroundColor(color) {
+            document.getElementById('terminal-container').style.backgroundColor = color;
+        }
+
+        function setFontSize(size) {
+            document.getElementById('terminal-container').style.fontSize = size;
+            document.getElementById('input').style.fontSize = size;
+        }
+
+        function clearTerminal() {
+            terminal.innerHTML = '';
+        }
+
+        function getStartupASCII() {
+            return `
+ __        __   _    ____  _          _ _ 
+ \\ \\      / /__| |__/ ___|| |__   ___| | |
+  \\ \\ /\\ / / _ \\ '_ \\___ \\| '_ \\ / _ \\ | |
+   \\ V  V /  __/ |_) |__) | | | |  __/ | |
+    \\_/\\_/ \\___|_.__/____/|_| |_|\___|_|_|
+            
+© 2024 lelbois. WebShell is licensed under the CC0-1.0 license.
+
+            `;
+        }
+
+        function parseANSI(input) {
+            // Regex to match ANSI escape codes
+            const ansiRegex = /\x1b\[([0-9;]*)m/g; // Matches ANSI sequences like \x1b[38;2;R;G;Bm
+
+            // Split the input on ANSI escape sequences keeping the sequences in the result
+            const parts = input.split(ansiRegex);
+            let result = '';
+
+            parts.forEach((part, index) => {
+                if (index % 2 === 0) { // Text part
+                    result += part; // No need to sanitize HTML for prompt or ANSI sequences
+                } else { // ANSI sequence part
+                    const codes = part.split(';');
+                    const foregroundIndex = codes[0];
+                    let colorStyle = '';
+                    
+                    // Check if it's a color change
+                    if (foregroundIndex === '38') {
+                        // 24-bit RGB color formatting: 38;2;R;G;B
+                        const r = parseInt(codes[2]);
+                        const g = parseInt(codes[3]);
+                        const b = parseInt(codes[4]);
+                        colorStyle = `color: rgb(${r}, ${g}, ${b});`;
+                    } else if (codes[0] === '48') {
+                        // Background color
+                        const r = parseInt(codes[2]);
+                        const g = parseInt(codes[3]);
+                        const b = parseInt(codes[4]);
+                        colorStyle = `background-color: rgb(${r}, ${g}, ${b});`;
+                    }
+
+                    // If there's a colorStyle, wrap the subsequent text with a span tag
+                    result += `<span style="${colorStyle}">`;
+                }
+            });
+
+            return result + '</span>'; // Close the last span
+        }
+    </script>
 </body>
 </html>
