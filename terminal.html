@@ -164,6 +164,9 @@
                 } else if (command.startsWith('setfontsize ')) {
                     const size = command.slice(12).trim();
                     setFontSize(size);
+                } else if (command.startsWith('setprompt ')) {
+                    const newPrompt = command.slice(10).trim();
+                    setPrompt(newPrompt);
                 } else if (command === 'clear') {
                     clearTerminal();
                 } else {
@@ -231,6 +234,11 @@
             document.getElementById('input').style.fontSize = size;
         }
 
+        function setPrompt(newPrompt) {
+            prompt = newPrompt + ' ';
+            promptSpan.textContent = prompt;
+        }
+
         function clearTerminal() {
             terminal.innerHTML = '';
         }
@@ -242,14 +250,15 @@
   \\ \\ /\\ / / _ \\ '_ \\___ \\| '_ \\ / _ \\ | |
    \\ V  V /  __/ |_) |__) | | | |  __/ | |
     \\_/\\_/ \\___|_.__/____/|_| |_|\___|_|_|
-            
+                                          
 © 2024 lelbois. WebShell is licensed under the CC0-1.0 license.
 
-            `;
+`;
         }
 
-        function parseANSI(input) {
-            // Regex to match ANSI escape codes
+ function parseANSI(input) {
+
+// Regex to match ANSI escape codes
             const ansiRegex = /\x1b\[([0-9;]*)m/g; // Matches ANSI sequences like \x1b[38;2;R;G;Bm
 
             // Split the input on ANSI escape sequences keeping the sequences in the result
