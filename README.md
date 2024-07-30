@@ -48,7 +48,7 @@ curl -X POST https://web-terminal-eight.vercel.app/run -H "Content-Type: applica
 WebShell has a variety of commands that allow you to customize your shell to however you want.
 
 - `setfontsize` - Allows you to change the size of the text using `px` or `em`.
-- `setfont` - Allows you to change the font of the terminalBy providing a font URL in `otf` or `ttf`.
+- `setfont` - Allows you to change the font of the terminal by providing a font URL in `otf` or `ttf`.
 - `setcolor` - Allows you to change the background color by providing a hex code.
 - `setbgcolor` - Allows you to change the background color by providing a hex code.
 - `setprompt` - Allows you to change the prompt of the terminal `admin@webshell:~$` to whatever you want.
