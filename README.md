@@ -4,7 +4,7 @@
 
 ![costume1 (1)](https://github.com/user-attachments/assets/e694a042-cc9e-426b-a6b2-596b2314f7ce)
 
-WebShell is a browser-based Linux terminal experience designed for **development and testing**. This project was created as an experiment to see if the node.js module `child_process` with the export `exec` could power an entire terminal, and to fulfill the need for terminal technologies in the browser.
+WebShell is a browser-based Linux terminal experience designed for **testing**. This project was created as an experiment to see if the node.js module `child_process` with the export `exec` could power an entire terminal, and to fulfill the need for terminal technologies in the browser.
 
 ## Features
 
