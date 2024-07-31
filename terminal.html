@@ -117,7 +117,7 @@
             if (username) {
                 document.getElementById('username-form').style.display = 'none';
                 document.getElementById('terminal-container').style.display = 'block';
-                prompt = `${username}@webshell:~$ `;
+                prompt = `${username}@webshell:~# `;
                 promptSpan.textContent = prompt;
                 appendLine(getStartupASCII(), false); // Display ASCII art on startup
                 inputField.focus();
