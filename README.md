@@ -83,6 +83,10 @@ The backend it uses to run commands is available as a zip file.
 
 > **NOTE**: WebShell Should not be used for complicated tasks due to its restrictions.
 
+## Updates
+
+WebShell now has node.js support! Just type `node` and then You can run JavaScript.
+
 ## Licensing
 
 WebShell is licensed under the CC0-1.0 license.
