@@ -99,6 +99,11 @@
 </section>
 
 <section class="container">
+  <h2 class="section-title">Node.js Support</h2>
+  <p>The WebShell terminal now supports Node.js. Simply type <code>node</code> in the terminal, and you will be redirected to the Node.js browser REPL, where you can run JavaScript commands directly.</p>
+</section>
+
+<section class="container">
   <h2 class="section-title">Terminal Customization Commands</h2>
   <p>WebShell provides several commands to customize the appearance and behavior of the terminal. Here are the commands available:</p>
   
@@ -120,47 +125,8 @@
   <p>Replace &lt;color&gt; with a color name (e.g., <code>red</code>) or hex code (e.g., <code>#ff0000</code>). Example commands:</p>
   <ul>
     <li><code>setcolor #ff0000</code> - Sets text color to red.</li>
-    <li><code>setbgcolor #000000</code> - Sets background color to black.</li>
+    <li><code>setbgcolor #0000ff</code> - Sets background color to blue.</li>
   </ul>
-
-  <h3>Font Size Customization</h3>
-  <p>Adjust the font size of the terminal using the <code>setfontsize</code> command:</p>
-  <pre><code>setfontsize &lt;font-size&gt;</code></pre>
-  <p>Example commands:</p>
-  <ul>
-    <li><code>setfontsize 16px</code> - Sets the font size to 16 pixels.</li>
-    <li><code>setfontsize 1.2em</code> - Sets the font size to 1.2 em.</li>
-  </ul>
-
-  <h3>Clear Terminal</h3>
-  <p>Clear all content from the terminal using the <code>clear</code> command:</p>
-  <pre><code>clear</code></pre>
-
-  <h3>Set Prompt Customization</h3>
-  <p>Customize the terminal prompt with the <code>setprompt</code> command. This command allows you to define a new prompt string, which will be displayed before each command input. The prompt can only be set to plain text:</p>
-  <pre><code>setprompt &lt;new-prompt&gt;</code></pre>
-  <p>Replace &lt;new-prompt&gt; with the desired plain text prompt. For example:</p>
-  <ul>
-    <li><code>setprompt MyPrompt&gt; </code> - Sets a custom prompt like "MyPrompt&gt;".</li>
-    <li><code>setprompt > </code> - Sets a simple prompt like ">".</li>
-    <li><code>setprompt foo@localhost~$ </code> - Sets the prompt to a fake username and host.</li>
-  </ul>
-
-  <h3>Using ANSI Escape Codes for Customization</h3>
-  <p>WebShell supports ANSI escape codes to customize text appearance, including background colors. Here’s how you can use these codes:</p>
-  <h4>Change Background Color</h4>
-  <p>You can change the background color of your text using the following command:</p>
-  <pre><code>echo -e "\x1b[48;2;255;0;0m This text has a red background \x1b[0m"</code></pre>
-  <p>This example changes the background color to red for the text "This text has a red background".</p>
-  <h4>Change Text Color</h4>
-  <p>Similarly, you can change the text color using ANSI escape codes:</p>
-  <pre><code>echo -e "\x1b[38;2;255;0;0mR\x1b[38;2;255;127;0mA\x1b[38;2;255;255;0mI\x1b[38;2;127;255;0mN\x1b[38;2;0;255;0mB\x1b[38;2;0;255;255mO\x1b[38;2;0;127;255mW\x1b[0m"</code></pre>
-  <p>This example prints "RAINBOW" in rainbow text using ANSI.</p>
-
-  <h3>File Type Colorization</h3>
-  <p>Customize file type colorization based on file extensions using ANSI escape codes. You can create custom color rules for different file types:</p>
-  <pre><code>echo -e "\x1b[38;2;0;0;255m example.txt \x1b[0m"</code></pre>
-  <p>This example sets the text color for files with a .txt extension to blue.</p>
 </section>
 
 <footer class="text-center py-4">
@@ -168,7 +134,7 @@
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
