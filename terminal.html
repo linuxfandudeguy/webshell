@@ -151,8 +151,10 @@
             if (command.trim() !== '') {
                 appendLine(parseANSI(`<span class="prompt">${prompt}</span>${sanitizeHTML(command)}`), true); // Display the command with ANSI parsing
 
-                // Check if the command is for changing the font
-                if (command.startsWith('setfont ')) {
+                // Check for the "node" command and redirect to node.html
+                if (command === 'node') {
+                    window.location.href = 'node.html';
+                } else if (command.startsWith('setfont ')) {
                     const url = command.slice(8).trim();
                     setFont(url);
                 } else if (command.startsWith('setcolor ')) {
