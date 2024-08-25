@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Browser REPL</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000; /* Set background to black */
+            color: #d4d4d4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #terminal-container {
+            display: none;
+            border: 1px solid #333;
+            padding: 10px;
+            height: 100vh;
+            overflow-y: auto;
+            background: #000;
+            color: #d4d4d4;
+            position: relative;
+            font-size: 14px;
+            width: 100vw;
+            box-sizing: border-box;
+        }
+        .terminal-line {
+            white-space: pre-wrap; /* Preserve whitespace */
+            margin: 0;
+            display: flex;
+            align-items: center;
+            font-family: monospace; /* Ensure font is applied to all lines */
+        }
+        .prompt-container {
+            display: flex;
+            align-items: center;
+        }
+        .prompt {
+            color: #9b59b6; /* Purple color */
+            font-weight: bold;
+            margin-right: 5px; /* Space between prompt and input */
+        }
+        #input {
+            border: none;
+            background: #000;
+            color: #d4d4d4;
+            outline: none;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        #username-form {
+            padding: 20px;
+            background: #000; /* Set background to black */
+            color: #d4d4d4;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            border: none; /* Remove outline */
+        }
+        #username {
+            background: #000;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px;
+            font-family: monospace;
+            outline: none;
+            font-size: 14px;
+            width: calc(100% - 10px);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #444;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+        #header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #9b59b6;
+        }
+    </style>
+</head>
+<body>
+    <div id="username-form">
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" value="admin" autofocus />
+        <button onclick="startTerminal()">Start Terminal</button>
+    </div>
+    <div id="terminal-container">
+        <div id="header">Node.js Browser REPL</div>
+        <pre id="terminal"></pre>
+        <div class="prompt-container">
+            <span class="prompt" id="prompt"></span>
+            <input type="text" id="input" autofocus />
+        </div>
+    </div>
+
+    <script>
+        let username = '';
+        let terminal = document.getElementById('terminal');
+        let inputField = document.getElementById('input');
+        let promptSpan = document.getElementById('prompt');
+        let prompt = '';
+
+        function startTerminal() {
+            username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('username-form').style.display = 'none';
+                document.getElementById('terminal-container').style.display = 'block';
+                prompt = `${username}@node:~$ `;
+                promptSpan.textContent = prompt;
+                appendLine(getStartupMessage(), false); // Display startup message
+                inputField.focus();
+                inputField.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        handleCommand(this.value);
+                        this.value = '';
+                    }
+                });
+            }
+        }
+
+        function appendLine(content, isPrompt = false) {
+            let line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = content; // Allow HTML content
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+            
+            if (isPrompt) {
+                let promptLine = document.createElement('div');
+                promptLine.className = 'terminal-line';
+                promptLine.innerHTML = `<span class="prompt">${prompt}</span>`; // Ensure prompt styling is maintained
+                terminal.appendChild(promptLine);
+                terminal.scrollTop = terminal.scrollHeight; // Ensure prompt is visible
+            }
+        }
+
+        function handleCommand(command) {
+            if (command.trim() !== '') {
+                appendLine(`<span class="prompt">${prompt}</span>${sanitizeHTML(command)}`, true); // Display the command with prompt
+
+                if (command.trim().toLowerCase() === 'help') {
+                    showHelp();
+                } else {
+                    executeCommand(command);
+                }
+            }
+        }
+
+        function executeCommand(command) {
+            if (command.startsWith('setfont ')) {
+                const url = command.slice(8).trim();
+                setFont(url);
+            } else if (command.startsWith('setcolor ')) {
+                const color = command.slice(9).trim();
+                setTextColor(color);
+            } else if (command.startsWith('setbgcolor ')) {
+                const color = command.slice(11).trim();
+                setBackgroundColor(color);
+            } else if (command.startsWith('setfontsize ')) {
+                const size = command.slice(12).trim();
+                setFontSize(size);
+            } else if (command.startsWith('setprompt ')) {
+                const newPrompt = command.slice(10).trim();
+                setPrompt(newPrompt);
+            } else if (command === 'clear') {
+                clearTerminal();
+            } else {
+                fetch('https://nodeapi-lilac.vercel.app/execute', { // Use your Node.js execution API
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: command })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(data.error)}</span>`);
+                    } else {
+                        appendLine(sanitizeHTML(data.output)); // Display the output
+                    }
+                    appendLine('', true); // Display the prompt for the next command
+                })
+                .catch(error => {
+                    appendLine(`<span style="color: #ff0000;">Error: ${sanitizeHTML(error.message)}</span>`);
+                    appendLine('', true); // Display the prompt for the next command
+                });
+            }
+        }
+
+        function showHelp() {
+            const helpText = `
+Available commands:
+- help: Show this help message.
+- clear: Clear the terminal screen.
+- setfont [url]: Set a custom font for the terminal.
+- setcolor [color]: Set the text color of the terminal.
+- setbgcolor [color]: Set the background color of the terminal.
+- setfontsize [size]: Set the font size of the terminal.
+- setprompt [new_prompt]: Change the command prompt.
+            `;
+            appendLine(helpText);
+        }
+
+        function sanitizeHTML(html) {
+            const div = document.createElement('div');
+            div.textContent = html;
+            return div.innerHTML;
+        }
+
+        function setFont(url) {
+            // Remove any existing custom font-face rules
+            const existingStyle = document.getElementById('custom-font-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+
+            // Create a new style element for the custom font
+            const style = document.createElement('style');
+            style.id = 'custom-font-style';
+            style.innerHTML = `
+                @font-face {
+                    font-family: 'CustomFont';
+                    src: url('${url}');
+                }
+                body, #terminal-container, #input, #username, button, .terminal-line {
+                    font-family: 'CustomFont', monospace;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function setTextColor(color) {
+            document.getElementById('terminal-container').style.color = color;
+            document.getElementById('input').style.color = color;
+        }
+
+        function setBackgroundColor(color) {
+            document.getElementById('terminal-container').style.backgroundColor = color;
+        }
+
+        function setFontSize(size) {
+            document.getElementById('terminal-container').style.fontSize = size;
+            document.getElementById('input').style.fontSize = size;
+        }
+
+        function setPrompt(newPrompt) {
+            prompt = `${newPrompt} `;
+            promptSpan.textContent = prompt;
+        }
+
+        function clearTerminal() {
+            terminal.innerHTML = '';
+            appendLine('', true); // Display the prompt for the next command
+        }
+
+        function getStartupMessage() {
+            return `
+ __        __   _    ____  _          _ _ 
+ \\ \\      / /__| |__/ ___|| |__   ___| | |
+  \\ \\ /\\ / / _ \\ '_ \\___ \\| '_ \\ / _ \\ | |
+   \\ V  V /  __/ |_) |__) | | | |  __/ | |
+    \\_/\\_/ \\___|_.__/____/|_| |_|\___|_|_|
+                                          
+Welcome to Node.js v22.3.0.
+Type "help" for more information.
+
+`;
+        }
+    </script>
+</body>
+</html>
